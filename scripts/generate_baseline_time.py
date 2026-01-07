@@ -204,7 +204,8 @@ if __name__ == "__main__":
     
     # Replace this with whatever hardware you are running on 
     # hardware_name = "L40S_matx3"
-    hardware_name = "H100_PCIe_LambdaLabs"
+    # hardware_name = "H100_PCIe_LambdaLabs"
+    hardware_name = "A800-SXM4-40GB"
 
     input(f"You are about to start recording baseline time for {hardware_name}, press Enter to continue...")
     # Systematic recording of baseline time

@@ -79,15 +79,15 @@ image = (
 class EvalConfig(Config):
     def __init__(self):
 
-        self.run_name = REQUIRED  # name of the run to evaluate
+        
 
-        self.dataset_src = REQUIRED  # either huggingface or local
+        self.dataset_src = "local"  # either huggingface or local
 
         # name of dataset name on Hugging Face
         self.dataset_name = "ScalingIntelligence/KernelBench"
 
         # Problem Specification
-        self.level = REQUIRED
+        self.level = 2
 
         # subset of problems to evaluate
         self.subset = (None, None)  # (start_id, end_id), these are the logical index
@@ -96,11 +96,11 @@ class EvalConfig(Config):
         self.eval_mode = "local"
 
         # For Modal: GPU type to use (L40S, H100, A100, L4, T4, A10G)
-        self.gpu = "A10G"
+        self.gpu = "A800-SXM4-40GB"
 
         # Construct this from mapping from architecture name to torch cuda arch list in the future
         # you can either specify SM version or just use the name
-        self.gpu_arch = ["Ada"]
+        self.gpu_arch = ["Ampere"]
 
         # Logging
         # Top Directory to Store Runs
@@ -129,16 +129,23 @@ class EvalConfig(Config):
         self.num_gpu_devices = 1
 
         # Backend to use for kernel implementation (cuda or triton)
-        self.backend = "cuda"
+        # (triton, cuda, cute, tilelang)
+        self.backend = "tilelang"
         
         # Precision for computation: "fp32", "fp16", "bf16"
-        self.precision = "fp32"
+        # self.precision = "fp32"
+        self.precision = "fp16"
         
         # Number of samples per problem to evaluate for pass@k analysis
         self.num_samples_per_problem = 1  # Default to 1 sample per problem
 
         # List of k values for pass@k calculation (e.g., [1, 5, 10])
         self.pass_at_k_values = [1]  # Default to only pass@1
+        # self.model_name = "openai/Kimi-K2-0905"
+        self.model_name = "openai/x-ai/grok-code-fast-1"  # OpenRouter格式
+        # Extract only the last part of model_name for run_name (e.g., "Kimi-K2-0905" from "openai/Kimi-K2-0905")
+        model_name_for_run = self.model_name.split("/")[-1] if "/" in self.model_name else self.model_name
+        self.run_name = f"level_{self.level}_backend_{self.backend}_model_{model_name_for_run}"  # name of the run
 
     def __repr__(self):
         return f"EvalConfig({self.to_dict()})"

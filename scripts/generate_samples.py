@@ -33,21 +33,19 @@ torch.set_printoptions(precision=4, threshold=10)
 class GenerationConfig(Config):
     def __init__(self):
 
-        self.dataset_src = REQUIRED  # either huggingface or local
+        self.dataset_src = "local"  # either huggingface or local
 
         # name of dataset name on Hugging Face
         self.dataset_name = "ScalingIntelligence/KernelBench"
 
         # Problem Specification
-        self.level = REQUIRED
+        self.level = 2
 
         # subset of problems to generate, otherwise generate on all problems in the level
         self.subset = (
             None,
             None,
         )  # (problem_id, problem_name), these are the logical index
-
-        self.run_name = REQUIRED  # name of the run
 
         # num of thread pool to call inference server in parallel
         self.num_workers = 64
@@ -75,14 +73,22 @@ class GenerationConfig(Config):
         self.num_samples = 1  # Default to 1 sample per problem
 
         self.log_prompt = False
-
-        self.backend = "cuda"
+        # (triton, cuda, cute, tilelang)
+        self.backend = "tilelang"
         
         self.precision = "fp32"
         self.prompt_option = "one_shot"  # zero_shot, one_shot, few_shot
         self.include_hardware_info = False
         self.hardware_gpu_name = None
         self.custom_prompt_key = None
+        self.server_type = "openai"
+        # self.model_name = "openai/GLM-4.7"  # aiping.cn
+        # self.model_name = "openai/grok-code-fast-1"
+        # OpenRouter需要使用openai/前缀 + OpenRouter的模型路径
+        self.model_name = "openai/x-ai/grok-code-fast-1"  # OpenRouter格式
+        # Extract only the last part of model_name for run_name (e.g., "Kimi-K2-0905" from "openai/Kimi-K2-0905")
+        model_name_for_run = self.model_name.split("/")[-1] if "/" in self.model_name else self.model_name
+        self.run_name = f"level_{self.level}_backend_{self.backend}_model_{model_name_for_run}"  # name of the run
 
     def greedy(self):
         # For greedy decoding, epsecially baseline eval

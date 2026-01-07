@@ -178,6 +178,11 @@ SERVER_PRESETS = {
         "model_name": "deepseek/deepseek-coder",
         "max_tokens": 4096
     },
+    "ai_ping": {
+        "temperature": 0.7, 
+        "model_name": "GLM-4.7",
+        "max_tokens": 40960
+    },
     "google": {
         "model_name": "gemini/gemini-2.5-flash",
         "temperature": 0.7, # need to experiment with temperature
@@ -204,7 +209,7 @@ SERVER_PRESETS = {
         "model_name": "gpt-4o-2024-08-06",
         # "model_name": "o1-preview-2024-09-12", # be careful with this one
         "temperature": 0.0,
-        "max_tokens": 4096,
+        "max_tokens": 40960,
     },
     "fireworks": {
         "model_name": "fireworks_ai/llama-v3p1-70b-instruct",

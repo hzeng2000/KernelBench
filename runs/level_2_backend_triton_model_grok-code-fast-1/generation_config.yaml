@@ -1,0 +1,27 @@
+api_query_interval: 0.0
+backend: triton
+budget_tokens: 0
+custom_prompt_key: None
+dataset_name: ScalingIntelligence/KernelBench
+dataset_src: local
+hardware_gpu_name: None
+include_hardware_info: false
+is_reasoning_model: false
+level: 2
+log_prompt: false
+max_tokens: 40960
+model_name: openai/x-ai/grok-code-fast-1
+num_samples: 1
+num_workers: 64
+precision: fp32
+prompt_option: one_shot
+reasoning_effort: low
+run_name: level_2_backend_triton_model_grok-code-fast-1
+runs_dir: /home/dataset-assist-0/hzeng/prj/KernelBench/runs
+server_type: openai
+store_type: local
+subset:
+- null
+- null
+temperature: 0.0
+verbose: false

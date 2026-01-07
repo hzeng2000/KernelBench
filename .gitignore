@@ -6,8 +6,12 @@ scratch/
 **dist/
 # **results/
 results/*
-runs/*
+# runs/*
 cache/*
 !results/timing/
 .env
 _build_cache/
+core.*
+.vscode/
+.idea/
+eval_results.json
